@@ -1,18 +1,23 @@
-#import random
-#random_number = random.radint(1, 100)
-#input_number = int(input ("숫자를 입력하세요: "))
-
 import random
+import sys
 
 best_count = 99
 
-def play_game():
+def question_number():
     random_number = random.randint(1,100)
-    count = 0
-    global best_count
+    print(f"맞춰야하는 숫자 : {random_number}")
+    return random_number
 
-    while True:
+def play_game():
+    global best_count
+    count = 0
+    close_flag = False
+    random_number = question_number()
     
+    while True:
+        if close_flag:
+            sys.exit()
+        
         input_num = int(input("[Up/Down 게임] 1~100 사이의 숫자를 입력하시오. :"))
     
         if 1 <= input_num <= 100:
@@ -36,12 +41,13 @@ def play_game():
                     
                     again = input("게임을 다시 하시겠습니까?(y/n):")
                     
-                    if again.lower == 'y':
+                    if again.lower() == 'y':
                         print("이전 게임 플레이 최고 기록:", best_count)
-                        break
+                        play_game()
                     
-                    elif again.lower == 'n':
+                    elif again.lower() == "n":
                         print("게임 종료")
+                        close_flag = True
                         break
                     else:
                         print("y/n만 입력 가능합니다.")
